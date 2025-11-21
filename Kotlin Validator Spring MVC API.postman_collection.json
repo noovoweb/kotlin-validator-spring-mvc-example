@@ -1,0 +1,386 @@
+{
+	"info": {
+		"_postman_id": "55366e37-0cfd-41f0-a9e4-0c1c0d2a0a65",
+		"name": "Kotlin Validator Spring MVC API",
+		"description": "Complete test collection for kotlin-validator-spring module with success and failure test cases for all validators including DecimalPlaces and Luhn",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1510588"
+	},
+	"item": [
+		{
+			"name": "Success Tests",
+			"item": [
+				{
+					"name": "Scenario Validations",
+					"item": [
+						{
+							"name": "Register - Success",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"john.doe@example.com\",\n  \"password\": \"SecurePass123!\",\n  \"passwordConfirmation\": \"SecurePass123!\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"age\": 30,\n  \"phoneNumber\": \"+14155552671\",\n  \"acceptTerms\": true\n}"
+								},
+								"url": {
+									"raw": "{{mvcBaseUrl}}/mvc/api/scenario/register",
+									"host": [
+										"{{mvcBaseUrl}}"
+									],
+									"path": [
+										"mvc",
+										"api",
+										"scenario",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "NestedTwoLevels - Success",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"order\": {\n    \"id\": \"ORD123\",\n    \"status\": \"shipped\",\n    \"total\": 99.99\n  },\n  \"customer\": {\n    \"name\": \"Jane Smith\",\n    \"address\": {\n      \"street\": \"123 Main St\",\n      \"city\": \"Springfield\",\n      \"postalCode\": \"ABC-123\"\n    }\n  }\n}"
+								},
+								"url": {
+									"raw": "{{mvcBaseUrl}}/mvc/api/scenario/nested-two-levels",
+									"host": [
+										"{{mvcBaseUrl}}"
+									],
+									"path": [
+										"mvc",
+										"api",
+										"scenario",
+										"nested-two-levels"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ProductsArray - Success",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"products\": [\n    {\n      \"name\": \"Laptop\",\n      \"description\": \"High-performance laptop with 16GB RAM\",\n      \"price\": 999.99,\n      \"quantity\": 5,\n      \"category\": \"Electronics\",\n      \"sku\": \"LAP-001\"\n    },\n    {\n      \"name\": \"Mouse\",\n      \"description\": \"Wireless optical mouse with ergonomic design\",\n      \"price\": 29.99,\n      \"quantity\": 50,\n      \"category\": \"Accessories\",\n      \"sku\": \"MOU-002\"\n    }\n  ]\n}"
+								},
+								"url": {
+									"raw": "{{mvcBaseUrl}}/mvc/api/scenario/products-array",
+									"host": [
+										"{{mvcBaseUrl}}"
+									],
+									"path": [
+										"mvc",
+										"api",
+										"scenario",
+										"products-array"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Failure Tests",
+			"item": [
+				{
+					"name": "Scenario Failures",
+					"item": [
+						{
+							"name": "Register - Failure (password mismatch)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"john.doe@example.com\",\n  \"password\": \"SecurePass123!\",\n  \"passwordConfirmation\": \"DifferentPass456!\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"age\": 30,\n  \"phoneNumber\": \"+14155552671\",\n  \"acceptTerms\": true\n}"
+								},
+								"url": {
+									"raw": "{{mvcBaseUrl}}/mvc/api/scenario/register",
+									"host": [
+										"{{mvcBaseUrl}}"
+									],
+									"path": [
+										"mvc",
+										"api",
+										"scenario",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Register - Failure (invalid email)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"not-an-email\",\n  \"password\": \"SecurePass123!\",\n  \"passwordConfirmation\": \"SecurePass123!\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"age\": 30,\n  \"phoneNumber\": \"+14155552671\",\n  \"acceptTerms\": true\n}"
+								},
+								"url": {
+									"raw": "{{mvcBaseUrl}}/mvc/api/scenario/register",
+									"host": [
+										"{{mvcBaseUrl}}"
+									],
+									"path": [
+										"mvc",
+										"api",
+										"scenario",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Register - Failure (age too young)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"john.doe@example.com\",\n  \"password\": \"SecurePass123!\",\n  \"passwordConfirmation\": \"SecurePass123!\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"age\": 15,\n  \"phoneNumber\": \"+14155552671\",\n  \"acceptTerms\": true\n}"
+								},
+								"url": {
+									"raw": "{{mvcBaseUrl}}/mvc/api/scenario/register",
+									"host": [
+										"{{mvcBaseUrl}}"
+									],
+									"path": [
+										"mvc",
+										"api",
+										"scenario",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Register - Failure (terms not accepted)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"john.doe@example.com\",\n  \"password\": \"SecurePass123!\",\n  \"passwordConfirmation\": \"SecurePass123!\",\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"age\": 30,\n  \"phoneNumber\": \"+14155552671\",\n  \"acceptTerms\": false\n}"
+								},
+								"url": {
+									"raw": "{{mvcBaseUrl}}/mvc/api/scenario/register",
+									"host": [
+										"{{mvcBaseUrl}}"
+									],
+									"path": [
+										"mvc",
+										"api",
+										"scenario",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "NestedTwoLevels - Failure (invalid postal code)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"order\": {\n    \"id\": \"ORD123\",\n    \"status\": \"shipped\",\n    \"total\": 99.99\n  },\n  \"customer\": {\n    \"name\": \"Jane Smith\",\n    \"address\": {\n      \"street\": \"123 Main St\",\n      \"city\": \"Springfield\",\n      \"postalCode\": \"invalid\"\n    }\n  }\n}"
+								},
+								"url": {
+									"raw": "{{mvcBaseUrl}}/mvc/api/scenario/nested-two-levels",
+									"host": [
+										"{{mvcBaseUrl}}"
+									],
+									"path": [
+										"mvc",
+										"api",
+										"scenario",
+										"nested-two-levels"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "NestedTwoLevels - Failure (negative total)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"order\": {\n    \"id\": \"ORD123\",\n    \"status\": \"shipped\",\n    \"total\": -50.00\n  },\n  \"customer\": {\n    \"name\": \"Jane Smith\",\n    \"address\": {\n      \"street\": \"123 Main St\",\n      \"city\": \"Springfield\",\n      \"postalCode\": \"ABC-123\"\n    }\n  }\n}"
+								},
+								"url": {
+									"raw": "{{mvcBaseUrl}}/mvc/api/scenario/nested-two-levels",
+									"host": [
+										"{{mvcBaseUrl}}"
+									],
+									"path": [
+										"mvc",
+										"api",
+										"scenario",
+										"nested-two-levels"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ProductsArray - Failure (empty array)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"products\": []\n}"
+								},
+								"url": {
+									"raw": "{{mvcBaseUrl}}/mvc/api/scenario/products-array",
+									"host": [
+										"{{mvcBaseUrl}}"
+									],
+									"path": [
+										"mvc",
+										"api",
+										"scenario",
+										"products-array"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ProductsArray - Failure (price too high)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"products\": [\n    {\n      \"name\": \"Expensive Item\",\n      \"description\": \"This item costs too much for validation\",\n      \"price\": 9999999.99,\n      \"quantity\": 1,\n      \"category\": \"Luxury\",\n      \"sku\": \"EXP-001\"\n    }\n  ]\n}"
+								},
+								"url": {
+									"raw": "{{mvcBaseUrl}}/mvc/api/scenario/products-array",
+									"host": [
+										"{{mvcBaseUrl}}"
+									],
+									"path": [
+										"mvc",
+										"api",
+										"scenario",
+										"products-array"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ProductsArray - Failure (description too short)",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"products\": [\n    {\n      \"name\": \"Product\",\n      \"description\": \"Short\",\n      \"price\": 99.99,\n      \"quantity\": 5,\n      \"category\": \"Test\",\n      \"sku\": \"PRD-001\"\n    }\n  ]\n}"
+								},
+								"url": {
+									"raw": "{{mvcBaseUrl}}/mvc/api/scenario/products-array",
+									"host": [
+										"{{mvcBaseUrl}}"
+									],
+									"path": [
+										"mvc",
+										"api",
+										"scenario",
+										"products-array"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "mvcBaseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		}
+	]
+}
