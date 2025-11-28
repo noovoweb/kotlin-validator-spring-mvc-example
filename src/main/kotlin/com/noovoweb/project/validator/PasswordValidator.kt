@@ -33,19 +33,6 @@ object PasswordValidator {
         val hasDigit = value.any { it.isDigit() }
         val hasSpecialChar = value.any { !it.isLetterOrDigit() }
 
-        return if (hasMinLength && hasUppercase && hasLowercase && hasDigit && hasSpecialChar) {
-            true
-        } else {
-            val message = context.messageProvider.getMessage(
-                "password.strong_password",
-                null,
-                context.locale
-            )
-            throw com.noovoweb.validator.ValidationException(
-                mapOf(
-                    "password" to listOf(message)
-                )
-            )
-        }
+        return hasMinLength && hasUppercase && hasLowercase && hasDigit && hasSpecialChar
     }
 }

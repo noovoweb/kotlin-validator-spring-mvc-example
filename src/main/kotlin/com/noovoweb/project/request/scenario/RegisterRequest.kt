@@ -13,8 +13,6 @@ import com.noovoweb.validator.FailFast
 import com.noovoweb.validator.Validated
 import com.noovoweb.validator.MinLength
 import com.noovoweb.validator.Pattern
-import com.noovoweb.validator.CustomValidator
-import com.noovoweb.validator.Nullable
 
 @Validated
 data class RegisterRequest(
@@ -37,7 +35,6 @@ data class RegisterRequest(
     @Alpha
     val firstName: String?,
 
-    @Nullable
     @MinLength(2)
     @MaxLength(50)
     @Alpha
