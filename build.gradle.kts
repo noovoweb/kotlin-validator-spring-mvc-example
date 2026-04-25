@@ -1,14 +1,16 @@
 plugins {
-	kotlin("jvm") version "2.0.21"
-	kotlin("plugin.spring") version "2.0.21"
+	kotlin("jvm") version "2.3.10"
+	kotlin("plugin.spring") version "2.3.10"
 	id("org.springframework.boot") version "3.4.1"
 	id("io.spring.dependency-management") version "1.1.7"
-	id("com.google.devtools.ksp") version "2.0.21-1.0.28"
+	id("com.google.devtools.ksp") version "2.3.6"
 }
 
 group = "com.noovoweb"
 version = "0.0.1-SNAPSHOT"
 description = "Demo project for Spring Boot"
+
+extra["kotlin.version"] = "2.3.10"
 
 val kotlinValidatorVersion = "0.1.0-beta.1"
 
@@ -52,6 +54,7 @@ dependencies {
 }
 
 kotlin {
+	jvmToolchain(21)
 	compilerOptions {
 		freeCompilerArgs.addAll("-Xjsr305=strict")
 	}
