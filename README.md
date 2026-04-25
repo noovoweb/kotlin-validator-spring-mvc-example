@@ -1,172 +1,115 @@
-# Kotlin Validator - Spring MVC Example
+# Kotlin Validator — Spring MVC Example
 
-A working example demonstrating the **[kotlin-validator](https://github.com/noovoweb/kotlin-validator)** library with **Spring Boot MVC**.
+A runnable REST API that demonstrates [**kotlin-validator**](https://github.com/noovoweb/kotlin-validator) with **Spring Boot MVC** (servlet / blocking).
 
-## 📚 Full Documentation
+> 📚 **Full library documentation:** https://github.com/noovoweb/kotlin-validator
 
-**For complete documentation, setup guides, and all features, see:**
+## Prerequisites
 
-👉 **[kotlin-validator Library README](https://github.com/noovoweb/kotlin-validator)**
+| | |
+|---|---|
+| JDK | 21+ |
+| Gradle | bundled wrapper |
+| GitHub PAT | with `read:packages` scope (see below) |
 
-The library README includes:
-- Complete setup instructions
-- All validation annotations
-- Custom validator creation
-- Advanced usage (I/O operations, dispatchers)
-- Internationalization (i18n)
-- Spring MVC integration guide
-- Performance optimization
+## Setup
 
-## 🚀 Quick Start
+The library is hosted on **GitHub Packages**, which always requires authentication.
 
-### Prerequisites
-- Java 21+
-- Gradle
+Add your credentials to `~/.gradle/gradle.properties`:
 
-### Run the Application
+```properties
+gpr.user=your-github-username
+gpr.token=ghp_your_personal_access_token
+```
+
+Create a token at https://github.com/settings/tokens with the `read:packages` scope.
+
+> 💡 If you have the library installed locally via `./gradlew publishToMavenLocal` in the `kotlin-validator/` repo, you can skip the credentials — `mavenLocal()` is checked first.
+
+## Run
 
 ```bash
 ./gradlew bootRun
 ```
 
-Application starts at: `http://localhost:8080`
+Application starts at **http://localhost:8080** — base path `/mvc/api/*`.
 
-### Test the API
-
-#### Using cURL
+## Try it
 
 ```bash
-# Test email validation
+# Valid email
 curl -X POST http://localhost:8080/mvc/api/string/email \
   -H "Content-Type: application/json" \
   -d '{"email":"test@example.com"}'
 
-# Test with French locale
+# Validation failure (in French)
 curl -X POST http://localhost:8080/mvc/api/string/email \
   -H "Content-Type: application/json" \
   -H "Accept-Language: fr" \
   -d '{"email":"invalid"}'
 ```
 
-#### Using Postman
+A Postman collection is included: `Kotlin Validator Spring MVC API.postman_collection.json`.
 
-Import the included collection:
-- **File:** `Kotlin Validator Spring MVC API.postman_collection.json`
-- **Base URL:** `http://localhost:8080`
+## What's demonstrated
 
-The collection includes comprehensive test requests for all validators.
+| Feature | Notes |
+|---|---|
+| **Built-in validators** | String, numeric, date/time, collection, file, network, conditional |
+| **Custom validators** | Strong password |
+| **Nested validation** | `@Valid` on nested data classes |
+| **i18n** | English / French via `Accept-Language` header |
+| **Spring `@Valid`** | Works alongside the library's own validation |
+| **422 error handling** | Structured `ValidationException` → JSON response |
 
-## ✨ What's Included
-
-This example demonstrates:
-
-✅ **Built-in validators** organized by category:
-- String validation (@Email, @Url, @Pattern, etc.)
-- Numeric validation (@Min, @Max, @Between, etc.)
-- Date/Time validation (@Future, @Past, @Today, etc.)
-- Collection validation (@Size, @Distinct, @NotEmpty, etc.)
-- File validation (@MimeType, @FileExtension, etc.)
-- Network validation (@IPv4, @IPv6, @MacAddress, etc.)
-- Conditional validation (@Same, @RequiredIf, etc.)
-
-✅ **Custom validators** (password strength)
-
-✅ **Internationalization** (English/French via Accept-Language header)
-
-✅ **Nested validation** with @Valid annotation
-
-✅ **Automatic error handling** (422 status codes)
-
-✅ **Traditional Spring MVC patterns**
-
-**API Base Path:** `/mvc/api/*`
-
-## 💡 Usage Example
+## Idiomatic usage
 
 ```kotlin
-// 1. Define request with validators
 @Validated
 data class RegisterRequest(
-    @Required @Email
-    val email: String?,
-    
-    @Required @StrongPassword
-    val password: String?
+    @Required @Email val email: String?,
+    @Required @StrongPassword val password: String?,
 )
 
-// 2. Use in controller
 @RestController
 @RequestMapping("/api")
-class UserController(
-    private val contextProvider: ValidationContextProvider
-) {
+class UserController(private val ctx: ValidationContextProvider) {
+
     @PostMapping("/register")
     fun register(
         @RequestBody payload: RegisterRequest,
-        httpRequest: HttpServletRequest
+        request: HttpServletRequest,
     ): Map<String, Any> = runBlocking {
-        // Validates with i18n support
-        RegisterRequestValidator().validate(
-            payload, 
-            contextProvider.get(httpRequest)
-        )
-        
-        mapOf("message" to "Success", "data" to payload)
+        RegisterRequestValidator().validate(payload, ctx.get(request))
+        mapOf("data" to payload)
     }
 }
 ```
 
-**Validation Error Response:**
+**Error response (422):**
 ```json
 {
   "status": 422,
   "message": "Validation Failed",
   "errors": {
     "email": ["Please enter a valid email address"],
-    "password": ["Password must be at least 12 characters..."]
+    "password": ["Password must be at least 12 characters"]
   }
 }
 ```
 
-## 🌍 Internationalization
-
-Test with different locales using the `Accept-Language` header:
-
-```bash
-# English (default)
-curl -X POST http://localhost:8080/mvc/api/scenario/register \
-  -H "Content-Type: application/json" \
-  -d '{"email":"invalid"}'
-
-# French
-curl -X POST http://localhost:8080/mvc/api/scenario/register \
-  -H "Content-Type: application/json" \
-  -H "Accept-Language: fr" \
-  -d '{"email":"invalid"}'
-```
-
-## 🔧 Dependencies
+## Dependencies
 
 ```kotlin
-dependencies {
-    implementation("com.noovoweb:kotlin-validator-annotations:0.1.0-beta.1")
-    implementation("com.noovoweb:kotlin-validator-runtime:0.1.0-beta.1")
-    implementation("com.noovoweb:kotlin-validator-spring-mvc:0.1.0-beta.1")
-    ksp("com.noovoweb:kotlin-validator-processor:0.1.0-beta.1")
-}
+implementation("com.noovoweb:kotlin-validator-annotations:0.1.0-beta.1")
+implementation("com.noovoweb:kotlin-validator-runtime:0.1.0-beta.1")
+implementation("com.noovoweb:kotlin-validator-spring-mvc:0.1.0-beta.1")
+ksp("com.noovoweb:kotlin-validator-processor:0.1.0-beta.1")
 ```
 
-## 📖 Learn More
+See `build.gradle.kts` for the full setup including the GitHub Packages repository block.
 
-For detailed documentation on:
-- Setting up the library
-- Creating custom validators
-- Advanced usage patterns
-- Performance tuning
-- All validator options
+## License
 
-**Visit:** 👉 **[kotlin-validator Library README](https://github.com/noovoweb/kotlin-validator)**
-
-## 📝 License
-
-This example project is provided as-is for demonstration purposes.
+Provided as-is for demonstration purposes.
