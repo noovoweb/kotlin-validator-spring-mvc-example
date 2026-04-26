@@ -12,7 +12,7 @@ description = "Demo project for Spring Boot"
 
 extra["kotlin.version"] = "2.3.10"
 
-val kotlinValidatorVersion = "0.1.0-beta.1"
+val kotlinValidatorVersion = "0.1.0-beta.3"
 
 java {
 	toolchain {
