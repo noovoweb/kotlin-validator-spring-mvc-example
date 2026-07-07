@@ -42,6 +42,5 @@ out/
 .DS_Store
 
 # Credentials and sensitive files
-gradle.properties
 local.properties
 secrets.properties
