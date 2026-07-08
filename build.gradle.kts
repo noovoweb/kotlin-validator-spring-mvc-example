@@ -1,16 +1,16 @@
 plugins {
-	kotlin("jvm") version "2.3.10"
-	kotlin("plugin.spring") version "2.3.10"
+	kotlin("jvm") version "2.3.21"
+	kotlin("plugin.spring") version "2.3.21"
 	id("org.springframework.boot") version "3.4.1"
 	id("io.spring.dependency-management") version "1.1.7"
-	id("com.google.devtools.ksp") version "2.3.6"
+	id("com.google.devtools.ksp") version "2.3.7"
 }
 
 group = "com.noovoweb"
 version = "0.0.1-SNAPSHOT"
 description = "Demo project for Spring Boot"
 
-extra["kotlin.version"] = "2.3.10"
+extra["kotlin.version"] = "2.3.21"
 
 val kotlinValidatorVersion: String by project
 
@@ -21,18 +21,7 @@ java {
 }
 
 repositories {
-    mavenLocal()
     mavenCentral()
-    maven {
-        name = "GitHubPackages"
-        url = uri("https://maven.pkg.github.com/noovoweb/kotlin-validator")
-        credentials {
-            username = providers.gradleProperty("gpr.user").orNull
-                ?: System.getenv("GITHUB_ACTOR")
-            password = providers.gradleProperty("gpr.token").orNull
-                ?: System.getenv("GITHUB_TOKEN")
-        }
-    }
 }
 
 dependencies {
