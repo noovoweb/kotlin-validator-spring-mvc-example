@@ -11,6 +11,9 @@ version = "0.0.1-SNAPSHOT"
 description = "Demo project for Spring Boot"
 
 extra["kotlin.version"] = "2.3.21"
+// kotlin-validator is compiled against coroutines 1.11.0; override Spring Boot's
+// managed (older) version so the runtime matches and library classes load.
+extra["kotlin-coroutines.version"] = "1.11.0"
 
 val kotlinValidatorVersion: String by project
 
@@ -21,14 +24,16 @@ java {
 }
 
 repositories {
+    // Uncomment to test a locally published library build (./gradlew publishToMavenLocal)
+    // before it's released. Leave commented in commits so builds resolve from Maven Central.
+    // mavenLocal()
     mavenCentral()
 }
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
-	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
-	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.8.0")
+	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
     implementation("io.github.oshai:kotlin-logging-jvm:7.0.3")
 
