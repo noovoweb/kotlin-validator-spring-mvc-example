@@ -11,8 +11,8 @@ version = "0.0.1-SNAPSHOT"
 description = "Demo project for Spring Boot"
 
 extra["kotlin.version"] = "2.3.21"
-// kotlin-validator is compiled against coroutines 1.11.0; override Spring Boot's
-// managed (older) version so the runtime matches and library classes load.
+// kotlin-validator requires kotlinx-coroutines 1.11.0+. This Spring Boot version manages an
+// older one, so raise it. If your Spring Boot already manages 1.11.0+, this line isn't needed.
 extra["kotlin-coroutines.version"] = "1.11.0"
 
 val kotlinValidatorVersion: String by project

@@ -10,22 +10,12 @@ A runnable REST API that demonstrates [**kotlin-validator**](https://github.com/
 |---|---|
 | JDK | 21+ |
 | Gradle | bundled wrapper |
-| GitHub PAT | with `read:packages` scope (see below) |
 
 ## Setup
 
-The library is hosted on **GitHub Packages**, which always requires authentication.
+The library is published to **Maven Central** — no credentials or extra setup required.
 
-Add your credentials to `~/.gradle/gradle.properties`:
-
-```properties
-gpr.user=your-github-username
-gpr.token=ghp_your_personal_access_token
-```
-
-Create a token at https://github.com/settings/tokens with the `read:packages` scope.
-
-> 💡 If you have the library installed locally via `./gradlew publishToMavenLocal` in the `kotlin-validator/` repo, you can skip the credentials — `mavenLocal()` is checked first.
+> 💡 To test a locally built library, run `./gradlew publishToMavenLocal` in the `kotlin-validator/` repo and uncomment `mavenLocal()` in `build.gradle.kts`.
 
 ## Run
 
@@ -110,7 +100,7 @@ implementation("com.noovoweb:kotlin-validator-spring-mvc:$kotlinValidatorVersion
 ksp("com.noovoweb:kotlin-validator-processor:$kotlinValidatorVersion")
 ```
 
-See `build.gradle.kts` for the full setup including the GitHub Packages repository block.
+See `build.gradle.kts` for the full dependency setup.
 
 ## License
 
